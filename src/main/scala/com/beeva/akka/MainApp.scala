@@ -15,7 +15,7 @@ object MainApp {
         val a = system.actorOf(Props(new Stringer("This string is going to be split and reversed")), "stringer")
         system.actorOf(Props(classOf[Terminator], a), "terminator")
 
-        a ! Messages.Split
+        //TODO Send the Split message to the actor
     }
 
     class Terminator(ref: ActorRef) extends Actor with ActorLogging {
