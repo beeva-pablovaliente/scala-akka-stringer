@@ -27,7 +27,6 @@ class Stringer(val data:String) extends Actor with ActorLogging{
         case Messages.Split =>
             //Store the actor who sends the Split message
             actorSplit = sender()
-
             val chunks = data.split(" ")
             numberOfChunks = chunks.length
             log.info("Split: {}", ScalaRunTime.stringOf(chunks))
@@ -47,7 +46,6 @@ class Stringer(val data:String) extends Actor with ActorLogging{
             if (chunksProcessed >= numberOfChunks) {
                 log.info("String processed")
                 actorSplit ! Messages.Done
-                context.stop(self)
             }
     }
 

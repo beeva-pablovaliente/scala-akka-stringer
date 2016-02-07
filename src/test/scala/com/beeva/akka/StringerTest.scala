@@ -5,7 +5,6 @@ import akka.testkit.{ImplicitSender, TestActorRef, TestKit}
 import com.beeva.akka.actors.Stringer
 import com.beeva.akka.messages.Messages
 import org.scalatest.{BeforeAndAfterAll, WordSpecLike, MustMatchers}
-import scala.concurrent.duration._
 
 
 /**
@@ -28,7 +27,7 @@ class StringerTest(_system: ActorSystem) extends TestKit(_system)
     "A Stringer Actor" must {
         "receive messages" in {
             // Creation of the TestActorRef
-            val actorRef = TestActorRef(Props(new Stringer("Test String To Be Split")))
+            val actorRef = TestActorRef(Props(new Stringer("Test String To Be Split")), "stringerTest")
 
             actorRef.tell(Messages.Split, testActor)
 
