@@ -3,9 +3,9 @@ package com.beeva.akka.actors
 import akka.actor.{ActorLogging, Actor}
 
 /**
-  * Created by rekkeb on 31/1/16.
+  * This actor must receive a String, print in console
+  * the same string but reversed and send back a ChunkProcessed message
   */
-
 class Reverser extends Actor with ActorLogging {
 
     // TODO

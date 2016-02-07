@@ -12,10 +12,11 @@ object MainApp {
 
     def main(args: Array[String]): Unit = {
         val system = ActorSystem("akka-string")
-        val a = system.actorOf(Props(new Stringer("This string is going to be split and reversed")), "stringer")
-        system.actorOf(Props(classOf[Terminator], a), "terminator")
 
-        //TODO Send the Split message to the actor
+        val stringer = system.actorOf(Props(new Stringer("This string is going to be split and reversed")), "stringer")
+        system.actorOf(Props(classOf[Terminator], stringer), "terminator")
+
+        //TODO Send the Split message to the stringer actor
     }
 
     class Terminator(ref: ActorRef) extends Actor with ActorLogging {
