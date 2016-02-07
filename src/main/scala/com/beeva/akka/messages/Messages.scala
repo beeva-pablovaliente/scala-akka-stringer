@@ -6,7 +6,9 @@ package com.beeva.akka.messages
 
 object Messages {
     case object Done
+    case object ChunkProcessed
     case object Create
     case object Split
 }
+
 

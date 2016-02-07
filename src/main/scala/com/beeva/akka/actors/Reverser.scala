@@ -12,6 +12,6 @@ class Reverser extends Actor with ActorLogging {
         case chunk: String =>
             log.info(chunk.reverse)
 
-            sender() ! Messages.Done
+            sender() ! Messages.ChunkProcessed
     }
 }

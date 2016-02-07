@@ -1,6 +1,6 @@
 package com.beeva.akka.actors
 
-import akka.actor.{ActorLogging, Actor, Props}
+import akka.actor.{ActorRef, ActorLogging, Actor, Props}
 import com.beeva.akka.messages.Messages
 
 import scala.runtime.ScalaRunTime
@@ -13,6 +13,8 @@ class Stringer(val data:String) extends Actor with ActorLogging{
     var numberOfChunks: Int = 0
     var chunksProcessed: Int = 0
 
+    var actorSplit: ActorRef = null
+
 
 //    override def preStart(): Unit = {
 //        // create the reverser actor
@@ -23,6 +25,9 @@ class Stringer(val data:String) extends Actor with ActorLogging{
 
     def receive = {
         case Messages.Split =>
+            //Store the actor who sends the Split message
+            actorSplit = sender()
+
             val chunks = data.split(" ")
             numberOfChunks = chunks.length
             log.info("Split: {}", ScalaRunTime.stringOf(chunks))
@@ -36,11 +41,12 @@ class Stringer(val data:String) extends Actor with ActorLogging{
 
         // when the reverser is done, and there is no more chunk to reverse
         // stop this actor and with it the application
-        case Messages.Done =>
+        case Messages.ChunkProcessed =>
             chunksProcessed+=1
 
             if (chunksProcessed >= numberOfChunks) {
                 log.info("String processed")
+                actorSplit ! Messages.Done
                 context.stop(self)
             }
     }
